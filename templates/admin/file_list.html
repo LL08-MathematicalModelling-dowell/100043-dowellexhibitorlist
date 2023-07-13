@@ -1,0 +1,39 @@
+{% extends "admin/my_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5 pt-3 pb-3" style="background-color: #F3F4F7;">
+    <div class="list-group list-group-flush">
+        <div class="justify-content-center" style="color: #1434A4"><h1>Exhibitor Fs.Files</h1></div>
+        <p>{{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</p>
+        {% for file in page_obj %}
+        <!--<p>{{file}}</p>-->
+
+        {# Each "contact" is a Contact model object. #}
+        {% load appname_tags %}
+        <p>here is your mongodb record id: {{ file|mongo_id }}</>
+        {% endwith %}
+        <h5>File Name: {{ file.filename }}</h5>
+        <hr>
+        {% endfor %}
+
+        <div class="pagination justify-content-center">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+        </div>
+    </div>
+</div>
+{% endblock content %}

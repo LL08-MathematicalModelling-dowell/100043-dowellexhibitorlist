@@ -1,0 +1,38 @@
+{% extends "admin/my_base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5 mb-5 pt-3 pb-3" style="background-color: #F3F4F7;">
+        <div class="list-group list-group-flush">
+            <div class="justify-content-center" style="color: #1434A4"><h1>Exhibitor Fs.Files</h1></div>
+            {% if not file %}
+            <h4>No file details found</h4>
+            {% else %}
+            <h4>Filename: {{ file.filename }}</h4>
+            <h4>Email: {{ file.email }}</h4>
+            <h4>Name: {{ file.name }}</h4>
+            <h4>Brand Name: {{ file.brand_name }}</h4>
+            <h4>Incharge Name: {{ file.name_incharge }}</h4>
+            <h4>Incharge Designation: {{ file.designation_incharge }}</h4>
+            <h4>Exhibitor's Page Link: {{ file.exhibitor_page_link }}</h4>
+            <h4>Exhibitor's Website: {{ file.exhibitor_website }}</h4>
+            <h4>Exhibitor's Email: {{ file.exhibitor_email }}</h4>
+            <h4>Exhibitor's Both Number: {{ file.exhibitor_both_number }}</h4>
+            <h4>Exhibitor's City: {{ file.exhibitor_city }}</h4>
+            <h4>Exhibitor Country: {{ file.exhibitor_country }}</h4>
+            <h4>Exhibitor Address: {{ file.exhibitor_address }}</h4>
+            <h4>Type: {{ file.type }}</h4>
+            <h4>Exhibitor's Product: {{ file.exhibitor_product }}</h4>
+            <h4>Linkedin: {{ file.linkedin }}</h4>
+            <h4>Twitter: {{ file.twitter }}</h4>
+            <h4>Facebook: {{ file.facebook }}</h4>
+            <h4>Instagram: {{ file.instagram }}</h4>
+            <h4>Youtube: {{ file.youtube }}</h4>
+            <h4>Tiktok: {{ file.tiktok }}</h4>
+            <h4>Hashtag: {{ file.hashtag }}</h4>
+            <h4>Mention: {{ file.mention }}</h4>
+            <h4>BDEventID: {{ file.BDEventID }}</h4>
+            <h4>Description: {{ file.description }}</h4>
+        </div>
+    </div>
+{% endblock content %}

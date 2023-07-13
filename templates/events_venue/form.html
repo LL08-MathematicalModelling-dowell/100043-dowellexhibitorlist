@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- MultiStep Form -->
+    <div class="container mt-5 mb-5" style="background-color: #ffffff;">
+        <h2><strong class="pt-3">Events in a Venue - Test - development</strong></h2>
+    </div>
+    <div class="container mt-5 mb-5" style="background-color: #ffffff;">
+        <div class="row">
+            <!-- <div class="col-md-12 mx-0 form-group"> -->
+            <form id="msform" action="{% url 'events_venue:multistepform' %}" method="post"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- progressbar -->
+                <ul class="text-center" id="progressbar">
+                    <li class="active" id="one"><strong>Step 1</strong></li>
+                    <li id="two"><strong>Step 2</strong></li>
+                    <li id="three"><strong>Step 3</strong></li>
+                </ul>
+                <!-- fieldsets -->
+                <fieldset>
+                    <br>
+                    <!-- <h2><strong class="pt-3">Events in a Venue - Test - development</strong></h2> -->
+                    <p>
+                        Project - Prepare a list of future exhibitions in each venue <br>
+                        You have to enter EVENT details <br>
+                        Its NOT Venue details <br>
+                        Its NOT Exhibitor details <br>
+                        Its Exhibition details <br>
+                    <hr>
+                    Email - Your email <br>
+                    Select venue - Select venue from the list, then visit website of the venue for event schedules <br>
+                    Event - Add event from website of venue (details of exhibition, not exhibitors), Enter future events
+                    only <br>
+                    Complete events in one venue then proceed to next venue <br>
+                    Do not enter wrong or bogus data to fields if data is not available
+                    </p>
+                    <p>The name and photo associated with your account will be recorded when you upload files and submit
+                        this form. Only the email you enter is part of your response.</p>
+                    <p style="color: red;">* Required</p>
+                    <!-- <div class="form-card"> -->
+                    <p><label class="required ms-2">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Your answer" maxlength="254"
+                               required></p>
+
+
+                    <!-- </div> -->
+                    <input type="button" name="next" class="next action-button" value="Next"/>
+                </fieldset>
+                <fieldset>
+                    <div class="form-card">
+                        <h2 class="fs-title">Venue</h2>
+                        <p><label class="required ms-2">Select a Venue</label>
+                            <select name="venue">
+                                <option value="Alexandra palace, London, UK, http://www.alexandrapalace.com/">Alexandra
+                                    palace, London, UK, http://www.alexandrapalace.com/
+                                </option>
+                                <option value="Business Design Centre, London, UK, https://www.businessdesigncentre.co.uk/">
+                                    Business Design Centre, London, UK, https://www.businessdesigncentre.co.uk/
+                                </option>
+                                <option value="County Hall, London, UK, https://www.londoncountyhall.com/">County Hall,
+                                    London, UK, https://www.londoncountyhall.com/
+                                </option>
+                                <option value="Croydon Arena, London, UK, https://www.better.org.uk/leisure-centre/london/croydon/croydon-sports-arena">
+                                    Croydon Arena, London, UK,
+                                    https://www.better.org.uk/leisure-centre/london/croydon/croydon-sports-arena
+                                </option>
+                                <option value="Earls Court Exhibition Centre, London, UK, https://www.ents24.com/london-events/earls-court-exhibition-centre">
+                                    Earls Court Exhibition Centre, London, UK,
+                                    https://www.ents24.com/london-events/earls-court-exhibition-centre
+                                </option>
+                                <option value="Olympia London, London, UK, https://olympia.london/">Olympia London,
+                                    London, UK, https://olympia.london/
+                                </option>
+                                <option value="ExCeL London, London, UK, https://www.excel.london/">ExCeL London,
+                                    London, UK, https://www.excel.london/
+                                </option>
+                                <option value="One Great George, London, UK, https://www.onegreatgeorgestreet.com/">One
+                                    Great George, London, UK, https://www.onegreatgeorgestreet.com/
+                                </option>
+                                <option value="Wembley Arena, London, UK, https://www.ssearena.co.uk/">Wembley Arena,
+                                    London, UK, https://www.ssearena.co.uk/
+                                </option>
+                                <option value="The Queen Elizabeth II Centre, London, UK, https://qeiicentre.london/">
+                                    The Queen Elizabeth II Centre, London, UK, https://qeiicentre.london/
+                                </option>
+                            </select></p>
+
+                    </div>
+                    <div class="form-card">
+                        <h2 class="fs-title">VISIT THE WEBSITE OF THE VENUE YOU HAVE SELECTED, THEN PROCEED</h2>
+                        <a href="http://www.alexandrapalace.com/">http://www.alexandrapalace.com/</a> <br>
+                        <a href="https://www.businessdesigncentre.co.uk/">https://www.businessdesigncentre.co.uk/</a><br>
+                        <a href="https://www.londoncountyhall.com/">https://www.londoncountyhall.com/</a><br>
+                        <a href="https://www.better.org.uk/leisure-centre/london/croydon/croydon-sports-arena">https://www.better.org.uk/leisure-centre/london/croydon/croydon-sports-arena</a><br>
+                        <a href="https://www.ents24.com/london-events/earls-court-exhibition-centre">https://www.ents24.com/london-events/earls-court-exhibition-centre</a><br>
+                        <a href="https://www.excel.london/">https://www.excel.london/</a> <br>
+                        <a href="https://olympia.london/">https://olympia.london/</a> <br>
+                        <a href="https://www.onegreatgeorgestreet.com/">https://www.onegreatgeorgestreet.com/</a> <br>
+                        <a href="https://www.ssearena.co.uk/">https://www.ssearena.co.uk/</a> <br>
+                        <a href="https://qeiicentre.london/">https://qeiicentre.london/</a><br>
+                    </div>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                    <input type="button" name="next" class="next action-button" value="Next"/>
+                </fieldset>
+                <fieldset>
+                    <div class="form-card">
+                        <h2 class="fs-title">Event</h2>
+                        <p>Take event details from venue website and event organiser's website, Enter future events
+                            only</p>
+                        <p><label class="required ms-2">Name of the event</label>
+                            <input type="text" name="name" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Tagline of the event</label>
+                            <input type="text" name="tagline" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Link to event page in venue site</label>
+                            <input type="url" name="vanue_page_link" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Website of event organisers</label>
+                            <input type="url" name="organiser_website" class="form-control" placeholder="Your answer">
+                        </p>
+                        <p><label class="required ms-2">Email of event organisers</label>
+                            <input type="email" name="organiser_email" class="form-control" placeholder="Your answer">
+                        </p>
+                        <p><label class="required ms-2">Website of event</label>
+                            <input type="url" name="website" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Exhibitor link</label>
+                            <input type="url" name="exhibitor" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Event type (online only / offline only / hybrid)</label>
+                            <select name="type">
+                                <option value="Online only">Online</option>
+                                <option value="Offline only">Offline</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select></p>
+                        <p><label class="required ms-2">Event Category (Trade show / Webinar / Conference)</label>
+                            <select name="category">
+                                <option value="Trade Show">Trade Show</option>
+                                <option value="Webinar">Webinar</option>
+                                <option value="Conference">Conference</option>
+                            </select></p>
+                        <p><label class="required ms-2">Business category highlighted by event organisers (use coma if
+                            you are adding more than one category)</label>
+                            <input type="text" name="business_category" class="form-control" placeholder="Your answer">
+                        </p>
+                        <p><label class="required ms-2">Start date of event (enter future date only)</label>
+                            <input type="date" name="start_date" class="form-control" placeholder="mm/dd/yyyy"></p>
+                        <p><label class="required ms-2">End date of event (enter date after start date)</label>
+                            <input type="date" name="end_date" class="form-control" placeholder="mm/dd/yyyy"></p>
+                        <p><label class="ms-2">Linkedin page of event</label>
+                            <input type="url" name="linkedin" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="ms-2">Twitter page of event</label>
+                            <input type="url" name="twitter" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="ms-2">Facebook page of event</label>
+                            <input type="url" name="facebook" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="ms-2">Instagram page of event</label>
+                            <input type="url" name="instagram" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="ms-2">Youtube page of event</label>
+                            <input type="url" name="youtube" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="ms-2">Tiktok page of event</label>
+                            <input type="url" name="tiktok" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Hashtag of the event (enter hashtag promoted by event
+                            organisers, example - #abcd)</label>
+                            <input type="text" name="hashtag" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Mention of the event (enter mention promoted by event
+                            organisers, example - @abcd)</label>
+                            <input type="text" name="mention" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Expected number of visitors in the event</label>
+                            <input type="number" name="visitors_number" class="form-control" placeholder="Your answer"
+                                   min="1" max="99999"></p>
+                        <p><label class="required ms-2">Expected number of exhibitors in the event</label>
+                            <input type="number" name="exhibitors_number" class="form-control" placeholder="Your answer"
+                                   min="1" max="99999"></p>
+                        <p><label class="required ms-2">Description of event</label>
+                            <input type="text" name="description" class="form-control" placeholder="Your answer"></p>
+                        <p><label class="required ms-2">Logo of the event (upload logo)</label>
+                            <input type="file" name="logo" accept="image/*"></p>
+                    </div>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                    <input type="submit" name="submit" class="confirm action-button" value="Submit"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+    <script src="{% static 'js/events.js' %}">
+    </script>
+{% endblock script %}

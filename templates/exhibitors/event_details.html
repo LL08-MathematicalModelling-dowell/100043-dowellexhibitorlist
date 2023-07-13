@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- MultiStep Form -->
+    <div class="container mt-5 mb-5" style="background-color: #ffffff;">
+        <div class="row">
+            <h2><strong class="pt-3">Event is Completed</strong></h2>
+            <p style="color: red">Sorry, Exhibitor can not be created because the Event status is completed </p>
+            <p> Here are the Event details <br>
+                Email = {{ obj.email }} <br>
+                Venue = {{ obj.venue }} <br>
+                Name of the event = {{ obj.name }} <br>
+                Tagline of the event = {{ obj.tagline }} <br>
+                Link to event page in venue site = <a href="{{ obj.vanue_page_link }}">{{ obj.vanue_page_link }}</a>
+                <br>
+                Website of event organisers = <a href="{{ obj.organiser_website }}">{{ obj.organiser_website }}</a> <br>
+                Email of event organisers = {{ obj.organiser_email }} <br>
+                Website of event = <a href="{{ obj.website }} ">{{ obj.website }}</a><br>
+                Event type = {{ obj.type }} <br>
+                Event Category = {{ obj.category }} <br>
+                Business category highlighted by event organisers = {{ obj.business_category }} <br>
+                Start date of event = {{ obj.start_date }} <br>
+                End date of event = {{ obj.end_date }} <br>
+                Expected number of visitors in the event = {{ obj.visitors_number }} <br>
+                Expected number of exhibitors in the event = {{ obj.exhibitors_number }} <br>
+                Linkedin page of event = <a href="{{ obj.linkedin }}">{{ obj.linkedin }}</a> <br>
+                Twitter page of event = <a href="{{ obj.twitter }}">{{ obj.twitter }}</a> <br>
+                Facebook page of event = <a href="{{ obj.facebook }}">{{ obj.facebook }}</a><br>
+                Instagram page of event = <a href="{{ obj.instagram }}">{{ obj.instagram }}</a><br>
+                Youtube page of event = <a href="{{ obj.youtube }}">{{ obj.youtube }}</a> <br>
+                Tiktok page of event= <a href="{{ obj.tiktok }}">{{ obj.tiktok }}</a><br>
+                Hashtag of the event = {{ obj.hashtag }} <br>
+                Mention of the event = {{ obj.mention }} <br>
+                Description of event = {{ obj.description }} <br>
+                Logo of the event = </p>
+            <img src="{{ obj.logo.url }}" alt="{{ obj.logo }}">
+        </div>
+    </div>
+{% endblock content %}
