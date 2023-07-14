@@ -22,8 +22,6 @@ from pymongo import MongoClient
 from event.models import Details
 from .models import Exhibitor
 
-from django.conf import settings
-
 
 # helper functions
 def send_email(to_email):
