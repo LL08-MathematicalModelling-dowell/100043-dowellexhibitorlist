@@ -11,6 +11,7 @@ import gridfs
 import pymongo
 import qrcode
 from PIL import Image
+from django.conf import settings
 
 
 # define the scope
@@ -201,8 +202,7 @@ def mail(form):
         smtp.login(Sender_Email, Password)
         smtp.send_message(newMessage)
 
-    client = pymongo.MongoClient(
-        "mongodb+srv://qruser:qr_12345@cluster0.n2ih9.mongodb.net/BD_IMAGE?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(settings.MONGODB_CONN)
     database = client.BD_IMAGE
 
     fs = gridfs.GridFS(database)

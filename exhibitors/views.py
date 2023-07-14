@@ -22,6 +22,8 @@ from pymongo import MongoClient
 from event.models import Details
 from .models import Exhibitor
 
+from django.conf import settings
+
 
 # helper functions
 def send_email(to_email):
@@ -184,7 +186,7 @@ def multistepform2_save(request):
             # save attatched logo
             # create a new instance of FileSystemStorage
             # fs = FileSystemStorage()
-            string = 'mongodb+srv://qruser:4q5ubxjxe91bzkx548qhu@cluster0.n2ih9.mongodb.net/DB_IMAGE?retryWrites=true&w=majority'
+            string = settings.MONGODB_CONN
             connection = MongoClient(string)
             db = connection.exhibitor_details
             fs = gridfs.GridFS(db, collection='fs')
