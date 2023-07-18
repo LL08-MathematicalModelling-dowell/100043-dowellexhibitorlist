@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'event',
     'exhibitors',
     'email_parser',
-    'search_function_app'
+    'search_function_app',
 ]
 
 MIDDLEWARE = [
