@@ -12,14 +12,17 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import json
 from pathlib import Path
+import os
 
-with open('config.json', 'r') as f:
-    json_data = json.load(f)
-
-MONGODB_CONN = json_data['mongodb']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+with open(os.path.join(BASE_DIR, 'config.json'), 'r') as f:
+    json_data = json.load(f)
+
+MONGODB_CONN = json_data['mongodb']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
