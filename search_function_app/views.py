@@ -1,5 +1,6 @@
 import json
 import os
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.files.storage import default_storage
 from rest_framework.response import Response
@@ -9,7 +10,7 @@ from django.db.models import Q
 from events_venue.models import Event
 
 def dowell_purposive_sampling(search_criteria, user_field):
-    n = 1000000
+    n = 100000
     sample_values = []
 
     # Build a Q object to combine multiple search criteria using OR logic
@@ -19,7 +20,7 @@ def dowell_purposive_sampling(search_criteria, user_field):
 
     # Fetch data from the Exhibition model based on the search criteria
     all_data = Event.objects.filter(q_object)
-
+    print("all_data", all_data)
     for item in all_data:
         sample_values.append({
             "timestamp": item.timestamp,
@@ -58,14 +59,18 @@ def dowell_purposive_sampling(search_criteria, user_field):
 
         if len(sample_values) == n:
             break
-
+    print("sample_values", sample_values)
     return sample_values
 
+
 @csrf_exempt
-@api_view(["POST"])
 def dowell_search(request):
     if request.method == "POST":
-        payload = request.data
+        try:
+            payload = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data"}, status=400)
+        
         print("payload", payload)
         data_type = payload.get("data_type")
         if data_type == "api":
@@ -77,9 +82,10 @@ def dowell_search(request):
                 key = payload.get(f"key{i}", "")
                 value = payload.get(f"value{i}", "")
                 search_criteria.append((key, value))
-
+            print("search_criteria", search_criteria)
+            print("user_field", user_field)
             sample_values = dowell_purposive_sampling(search_criteria, user_field)
-            return Response(sample_values)
+            return JsonResponse(sample_values, safe=False)
 
         elif data_type == "upload":
             print("upload data")
@@ -116,14 +122,14 @@ def dowell_search(request):
                         sample_values = dowell_purposive_sampling(
                             search_criteria, user_field
                         )
-                        return Response(sample_values)
+                        return JsonResponse(sample_values, safe=False)
                 finally:
                     os.remove(file_path)
         else:
-            return Response({"error": "Invalid data type select api or upload"})
+            return JsonResponse({"error": "Invalid data type, select api or upload"}, status=400)
     else:
-        return Response({"error": "Invalid request method."})
+        return JsonResponse({"error": "Invalid request method."}, status=405)
 
 @csrf_exempt
 def search(request):
-    return render(request, "search_function.html")
+    return render(request, "search_func/search_function.html")

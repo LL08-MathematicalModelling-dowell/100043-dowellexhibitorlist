@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'dptmyrao@a3x+k4c#5rrbph1_1&u562i!=j&iwd(v6iu*@g5@('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['100043.pythonanywhere.com', "127.0.0.1"]
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'exhibitors',
     'email_parser',
     'search_function_app',
+    'events_venue',
 ]
 
 MIDDLEWARE = [
