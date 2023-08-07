@@ -72,61 +72,61 @@ def dowell_search(request):
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
         
         print("payload", payload)
-        data_type = payload.get("data_type")
-        if data_type == "api":
-            search_count = int(payload.get("search_count", 0))
-            search_criteria = []
-            user_field = payload.get("user_field", {})
+        # data_type = payload.get("data_type")
+        # if data_type == "api":
+        search_count = int(payload.get("search_count", 0))
+        search_criteria = []
+        user_field = payload.get("user_field", {})
 
-            for i in range(search_count):
-                key = payload.get(f"key{i}", "")
-                value = payload.get(f"value{i}", "")
-                search_criteria.append((key, value))
-            print("search_criteria", search_criteria)
-            print("user_field", user_field)
-            sample_values = dowell_purposive_sampling(search_criteria, user_field)
-            return JsonResponse(sample_values, safe=False)
+        for i in range(search_count):
+            key = payload.get(f"key{i}", "")
+            value = payload.get(f"value{i}", "")
+            search_criteria.append((key, value))
+        print("search_criteria", search_criteria)
+        print("user_field", user_field)
+        sample_values = dowell_purposive_sampling(search_criteria, user_field)
+        return JsonResponse(sample_values, safe=False)
 
-        elif data_type == "upload":
-            print("upload data")
-            search_count = int(payload.get("search_count", 0))
-            uploaded_data = request.FILES.get("_file")
-            user_field = {
-                "cluster": "license",
-                "database": "license",
-                "collection": "licenses",
-                "document": "licenses",
-                "team_member_ID": "689044433",
-                "function_ID": "ABCDE",
-                "command": "fetch",
-                "field": {},
-                "update_field": None,
-                "platform": "bangalore",
-            }
-            search_criteria = []
+        # elif data_type == "upload":
+        #     print("upload data")
+        #     search_count = int(payload.get("search_count", 0))
+        #     uploaded_data = request.FILES.get("_file")
+        #     user_field = {
+        #         "cluster": "license",
+        #         "database": "license",
+        #         "collection": "licenses",
+        #         "document": "licenses",
+        #         "team_member_ID": "689044433",
+        #         "function_ID": "ABCDE",
+        #         "command": "fetch",
+        #         "field": {},
+        #         "update_field": None,
+        #         "platform": "bangalore",
+        #     }
+        #     search_criteria = []
 
-            for i in range(search_count):
-                key = payload.get(f"key{i}", "")
-                value = payload.get(f"value{i}", "")
-                search_criteria.append((key, value))
+        #     for i in range(search_count):
+        #         key = payload.get(f"key{i}", "")
+        #         value = payload.get(f"value{i}", "")
+        #         search_criteria.append((key, value))
 
-            if uploaded_data:
-                print("uploaded_data", uploaded_data)
-                file_path = default_storage.save(
-                    uploaded_data.name, uploaded_data
-                )  # Save the uploaded file
-                try:
-                    with default_storage.open(file_path, "r") as file:
-                        json_data = json.load(file)
-                        manual_data = json_data
-                        sample_values = dowell_purposive_sampling(
-                            search_criteria, user_field
-                        )
-                        return JsonResponse(sample_values, safe=False)
-                finally:
-                    os.remove(file_path)
-        else:
-            return JsonResponse({"error": "Invalid data type, select api or upload"}, status=400)
+        #     if uploaded_data:
+        #         print("uploaded_data", uploaded_data)
+        #         file_path = default_storage.save(
+        #             uploaded_data.name, uploaded_data
+        #         )  # Save the uploaded file
+        #         try:
+        #             with default_storage.open(file_path, "r") as file:
+        #                 json_data = json.load(file)
+        #                 manual_data = json_data
+        #                 sample_values = dowell_purposive_sampling(
+        #                     search_criteria, user_field
+        #                 )
+        #                 return JsonResponse(sample_values, safe=False)
+        #         finally:
+        #             os.remove(file_path)
+        # else:
+        #     return JsonResponse({"error": "Invalid data type, select api or upload"}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method."}, status=405)
 
