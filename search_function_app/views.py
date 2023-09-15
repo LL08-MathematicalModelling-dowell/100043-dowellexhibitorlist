@@ -133,3 +133,5 @@ def dowell_search(request):
 @csrf_exempt
 def search(request):
     return render(request, "search_func/search_function.html")
+
+# {"cluster":"license","database":"license","collection":"licenses","document":"licenses","team_member_ID":"689044433","function_ID":"ABCDE","command":"fetch","field":{},"update_field":null,"platform":"bangalore"}
