@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <style>
+        /* Custom card styles */
+        .custom-card {
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .custom-card:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            margin: 0;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+    </style>
+
+    <!-- MultiStep Form -->
+    <div class="container mt-5 mb-5" style="background-color: #ffffff;">
+        <div class="row">
+            <h2><strong class="pt-3">Welcome to Exhibiter</strong></h2>
+        </div>
+    </div>
+    <div class="container mt-5 mb-5" style="background-color: #ffffff;">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Card for Add Data -->
+                <div class="custom-card" onclick="redirectToAddData()">
+                    <h5 class="card-title">Add Exhibitor Data</h5>
+                    <div class="card-body">
+                        <p class="card-text">Click here to add exhibitor data.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Card for View Data -->
+                <div class="custom-card" onclick="redirectToViewData()">
+                    <h5 class="card-title">Search Function</h5>
+                    <div class="card-body">
+                        <p class="card-text">Click here to view data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log("session_id", "{{session_id}}")
+
+        function redirectToAddData() {
+            // Redirect to the Add Data page
+            window.location.href = '/add-data';  // Change '/add_data' to the actual URL you want to redirect to
+        }
+
+        function redirectToViewData() {
+            // Redirect to the View Data page
+            window.location.href = '/api/search-function/';  // Change '/view_data' to the actual URL you want to redirect to
+        }
+
+        function checkstatus() {
+            var lav = document.getElementById("useronline-status-icons");
+
+            // AJAX GET request
+            $.ajax({
+                url: 'https://100014.pythonanywhere.com/en/live_status',
+                type: 'GET',
+                success: function (data) {
+                    lav.style.color = "green"
+                    //   lav.innerHTML = JSON.stringify(data);
+                },
+                error: function (error) {
+                    //   console.error(error);
+                    lav.style.color = "red"
+                }
+            });
+
+            // AJAX POST request
+            $.ajax({
+                url: 'https://100014.pythonanywhere.com/en/live_status',
+                type: 'POST',
+                data: JSON.stringify({session_id: '{{ session_id }}', product: "Exhibitoe form"}),
+                contentType: 'application/json',
+                success: function (data) {
+                    console.log("11232131232", data);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        setInterval(checkstatus, 60000);
+        checkstatus()
+    </script>
+{% endblock content %}
+{% block script %}
+    <!-- <script src="{% static 'js/form1.js' %}"></script> -->
+{% endblock script %}
