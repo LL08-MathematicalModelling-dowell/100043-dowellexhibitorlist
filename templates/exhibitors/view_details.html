@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- MultiStep Form -->
+<div class="container mt-5 mb-5" style="background-color: #ffffff;">
+    <div class="row">
+        <div>
+            
+            <form id="msform" method="post">
+                <h2><strong>View Exhibitor Details</strong></h2>
+                {% csrf_token %}
+                <input id="email" type="hidden" name="email" class="form-control" placeholder="Your answer" maxlength="254" value="{{ email }}"
+                               required>
+                <input formaction="{% url 'exhibitors:file-export-view' %}" type="submit" name="download_csv" class="confirm action-button w-auto" value="Download CSV"/>
+            </form>
+        </div>
+        <div class="table-container table-responsive">
+            <table class="table table-success table-bordered w-auto text-nowrap">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name of the Exhibitor</th>
+                        <th scope="col">Brand name of the exhibitor</th>
+                        <th scope="col">Name of Person in charge of the exhibitor (NA if not available)</th>
+                        <th scope="col">Designation of Person in charge of the exhibitor (NA if not available)</th>
+                        <th scope="col">Link to exhibitor page in event site</th>
+                        <th scope="col">Website of exhibitor</th>
+                        <th scope="col">Email of Exhibitor</th>
+                        <th scope="col">Stand/Booth number of Exhibitor in the event</th>
+                        <th scope="col">Location of Exhibitor (City)</th>
+                        <th scope="col">Country of Exhibitor</th>
+                        <th scope="col">Address of the exhibitor</th>
+                        <th scope="col">Exhibitor type in the event</th>
+                        <th scope="col">Products/Services highlighted by exhibitor</th>
+                        <th scope="col">Linkedin page of exhibitor</th>
+                        <th scope="col">Twitter page of exhibitor</th>
+                        <th scope="col">Facebook page of exhibitor</th>
+                        <th scope="col">Instagram page of exhibitor</th>
+                        <th scope="col">Youtube page of exhibitor</th>
+                        <th scope="col">Tiktok page of exhibitor</th>
+                        <th scope="col">Hashtag of the exhibitor</th>
+                        <th scope="col">Mention of the exhibitor</th>
+                        <th scope="col">Description about exhibitor</th>
+                        <th scope="col">Comments regarding visitors</th>
+                        <th scope="col">Logo of the exhibitor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exhibitor in obj_list %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ exhibitor.name}}</td>
+                        <td>{{ exhibitor.brand_name }}</td>
+                        <td>{{ exhibitor.name_incharge }}</td>
+                        <td>{{ exhibitor.designation_incharge }}</td>
+                        <td>{{ exhibitor.exhibitor_page_link }}</td>
+                        <td>{{ exhibitor.exhibitor_website }}</td>
+                        <td>{{ exhibitor.exhibitor_email }}</td>
+                        <td>{{ exhibitor.exhibitor_both_number }}</td>
+                        <td>{{ exhibitor.exhibitor_city }}</td>
+                        <td>{{ exhibitor.exhibitor_country }}</td>
+                        <td>{{ exhibitor.exhibitor_address }}</td>
+                        <td>{{ exhibitor.type }}</td>
+                        <td>{{ exhibitor.exhibitor_product }}</td>
+                        <td><a href="{{ exhibitor.linkedin }}">{{ exhibitor.linkedin }}</a></td>
+                        <td><a href="{{ exhibitor.twitter }}">{{ exhibitor.twitter }}</a></td>
+                        <td><a href="{{ exhibitor.facebook }}">{{ exhibitor.facebook }}</a></td>
+                        <td><a href="{{ exhibitor.instagram }}">{{ exhibitor.instagram }}</a></td>
+                        <td><a href="{{ exhibitor.youtube }}">{{ exhibitor.youtube }}</a></td>
+                        <td><a href="{{ exhibitor.tiktok }}">{{ exhibitor.tiktok }}</a></td>
+                        <td>{{ exhibitor.hashtag }}</td>
+                        <td>{{ exhibitor.mention }}</td>
+                        <td>{{ exhibitor.description }}</td>
+                        <td>{{ exhibitor.comments }}</td>
+                        <td><img src="{{ exhibitor.logo.url }}" alt="{{ exhibitor.name }} Logo"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table-container {
+        min-height: 400px;
+        /* Set the maximum height for scrollability */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+    }
+</style>
+
+{% endblock content %}
