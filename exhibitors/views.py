@@ -275,58 +275,58 @@ def multistepform2_save(request):
 
         try:
             # connecting with mongodb through function in views.py file
-            url = 'http://100002.pythonanywhere.com/'
-            data = {
-                "cluster": "exhibitor",
-                "database": "exhibitor",
-                "collection": "exhibitors_exhibitor",
-                "document": "exhibitor",
-                "team_member_ID": "2378987",
-                "function_ID": "ABCDE",
-                "command": "insert",
-                "field": {
-                    # "created": timezone.now,
-                    "email": email,
-                    "name": name,
-                    "brand_name": brand_name,
-                    "name_incharge": name_incharge,
-                    "designation_incharge": designation_incharge,
-                    "exhibitor_page_link": exhibitor_page_link,
-                    "exhibitor_website": exhibitor_website,
-                    "exhibitor_email": exhibitor_email,
-                    "exhibitor_both_number": exhibitor_both_number,
-                    "exhibitor_city": exhibitor_city,
-                    "exhibitor_country": exhibitor_country,
-                    "exhibitor_address": exhibitor_address,
-                    "type": type,
-                    "exhibitor_product": exhibitor_product,
-                    "linkedin": linkedin,
-                    "twitter": twitter,
-                    "facebook": facebook,
-                    "instagram": instagram,
-                    "youtube": youtube,
-                    "tiktok": tiktok,
-                    "hashtag": hashtag,
-                    "mention": mention,
-                    "description": description,
-                    "comments": comments,
-                    "BDEventID": BDEventID,
-                    "logo": str(logo_image_encoded),
-                },
+            # url = 'http://100002.pythonanywhere.com/'
+            # data = {
+            #     "cluster": "exhibitor",
+            #     "database": "exhibitor",
+            #     "collection": "exhibitors_exhibitor",
+            #     "document": "exhibitor",
+            #     "team_member_ID": "2378987",
+            #     "function_ID": "ABCDE",
+            #     "command": "insert",
+            #     "field": {
+            #         # "created": timezone.now,
+            #         "email": email,
+            #         "name": name,
+            #         "brand_name": brand_name,
+            #         "name_incharge": name_incharge,
+            #         "designation_incharge": designation_incharge,
+            #         "exhibitor_page_link": exhibitor_page_link,
+            #         "exhibitor_website": exhibitor_website,
+            #         "exhibitor_email": exhibitor_email,
+            #         "exhibitor_both_number": exhibitor_both_number,
+            #         "exhibitor_city": exhibitor_city,
+            #         "exhibitor_country": exhibitor_country,
+            #         "exhibitor_address": exhibitor_address,
+            #         "type": type,
+            #         "exhibitor_product": exhibitor_product,
+            #         "linkedin": linkedin,
+            #         "twitter": twitter,
+            #         "facebook": facebook,
+            #         "instagram": instagram,
+            #         "youtube": youtube,
+            #         "tiktok": tiktok,
+            #         "hashtag": hashtag,
+            #         "mention": mention,
+            #         "description": description,
+            #         "comments": comments,
+            #         "BDEventID": BDEventID,
+            #         "logo": str(logo_image_encoded),
+            #     },
 
-                'update_field': {
-                    "name": "Joy update",
-                    "phone": "123456",
-                    "age": "26",
-                    "language": "Englis",
+            #     'update_field': {
+            #         "name": "Joy update",
+            #         "phone": "123456",
+            #         "age": "26",
+            #         "language": "Englis",
 
-                },
-                "platform": "bangalore",
+            #     },
+            #     "platform": "bangalore",
 
-            }
-            headers = {'content-type': 'application/json'}
+            # }
+            # headers = {'content-type': 'application/json'}
 
-            response = requests.post(url, json=data, headers=headers)
+            # response = requests.post(url, json=data, headers=headers)
             messages.success(request, "Exhibitor Saved Successfully, Thank you.")
             return HttpResponseRedirect(reverse('exhibitors:thanks'))
         except:
@@ -339,8 +339,28 @@ def response_recorded(request):
 
 
 def event_details(request):
-    return render(request, 'exhibitors/event_details.html')
-
+    if request.method != "POST":
+        return HttpResponseRedirect(reverse("exhibitors:main-view"))
+    else:
+        email = request.POST.get("email")
+        string = settings.MONGODB_CONN
+        connection = MongoClient(string)
+        db = connection['exhibitor_details']
+        collection = db['fs.files']
+        files = []
+        # for doc in collection.find({"email": request.session['email']}):
+        for doc in collection.find({"email": email},
+                               {'_id': 1, 'filename': 1, 'md5': 1, 'chunkSize': 1, 'length': 1, 'uploadDate': 1,
+                                'email': 1, 'name': 1, 'brand_name': 1, 'name_incharge': 1,
+                                'designation_incharge': 1, 'exhibitor_page_link': 1, 'exhibitor_website': 1,
+                                'exhibitor_email': 1,
+                                'exhibitor_both_number': 1, 'exhibitor_city': 1, 'exhibitor_country': 1,
+                                'exhibitor_address': 1, 'type': 1, 'exhibitor_product': 1, 'linkedin': 1, 'twitter': 1,
+                                'facebook': 1, 'instagram': 1, ' youtube': 1,
+                                'tiktok': 1, 'hashtag': 1, 'mention': 1, 'BDEventID': 1, 'description': 1,
+                                'comments': 1, }):
+            files.append(doc)     
+        return render(request, 'exhibitors/view_details.html', {'obj_list': files, 'email': email})
 
 @login_required(login_url='/accounts/login/')
 def create_email(request):
@@ -533,8 +553,8 @@ def file_UpdateView(request, id):
     return render(request, 'exhibitors/file_message.html', {'message': message})
 
 
-@login_required(login_url='/accounts/login/')
-@user_passes_test(lambda u: u.is_superuser)
+# @login_required(login_url='/accounts/login/')
+# @user_passes_test(lambda u: u.is_superuser)
 def file_exportview(request):
     # if request.method!="POST":
     #     return HttpResponseRedirect(reverse("exhibitors:file-list-view"))

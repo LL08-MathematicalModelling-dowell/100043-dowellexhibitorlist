@@ -13,7 +13,7 @@
     <div class="container mt-5 mb-5" style="background-color: #ffffff;">
         <div class="row">
             <!-- <div class="col-md-12 mx-0 form-group"> -->
-            <form id="msform" action="{% url 'exhibitors:multistepform1' %}" method="post">
+            <form id="msform" method="post">
                 {% csrf_token %}
                 <!-- progressbar -->
                 <ul class="text-center" id="progressbar">
@@ -43,11 +43,13 @@
                     <p style="color: red;">* Required</p>
                     <!-- <div class="form-card"> -->
                     <p><label class="required ms-2">Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="Your answer" maxlength="254"
+                        <input id="email" type="email" name="email" class="form-control" placeholder="Your answer" maxlength="254"
                                required></p>
                     <!-- </div> -->
                     <!-- <input type="button" name="next" class="next action-button" value="Next Step" /> -->
-                    <input type="submit" name="submit" class="confirm action-button" value="Next"/>
+                    <input formaction="{% url 'exhibitors:multistepform1' %}" type="submit" name="add_data" class="confirm action-button" value="Add data"/>
+                    {% comment %} <input id="token" type="text" value="" style="display:none;"/> {% endcomment %}
+                    <input formaction="{% url 'exhibitors:view_details' %}" type="submit" name="view_data" class="confirm action-button" value="View Data" />
                 </fieldset>
             </form>
         </div>
