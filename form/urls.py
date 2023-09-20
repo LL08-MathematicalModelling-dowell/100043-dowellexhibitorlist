@@ -26,7 +26,9 @@ urlpatterns = [
     path('events/', include('event.urls', namespace='events_venue')),
     path('exhibitors/', include('exhibitors.urls', namespace='exhibitors')),
     path('newspaper/', include('email_parser.urls', namespace='newspaper')),
+    path('api/', include('search_function_app.urls')),
     path('', views.index, name='view'),
+    path('add-data', views.add_data, name='add_data'),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,7 +4,7 @@ from djongo import models
 
 
 class Event(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     email = models.EmailField(max_length=254)
     venue = models.CharField(max_length=254)
     name = models.CharField(max_length=254)
@@ -13,12 +13,12 @@ class Event(models.Model):
     organiser_website = models.URLField(max_length=2048)
     organiser_email = models.EmailField(max_length=254)
     website = models.URLField(max_length=2048)
-    exhibitor = models.URLField(max_length=2048)
+    exhibitor = models.URLField(max_length=2048,blank=True, null=True)
     type = models.CharField(max_length=50)
     category = models.CharField(max_length=50)
     business_category = models.TextField(max_length=1000)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField( auto_now=True, null=True, blank=True)
+    end_date = models.DateField(auto_now=True, null=True, blank=True)
     linkedin = models.URLField(blank=True, null=True, max_length=2048)
     twitter = models.URLField(blank=True, null=True, max_length=2048)
     facebook = models.URLField(blank=True, null=True, max_length=2048)
