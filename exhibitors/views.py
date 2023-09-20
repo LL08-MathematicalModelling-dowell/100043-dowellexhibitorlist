@@ -560,7 +560,6 @@ def file_exportview(request):
     #     return HttpResponseRedirect(reverse("exhibitors:file-list-view"))
     # else:
     email = request.POST.get("email")
-    print(email)
     # return render(request, 'exhibitors/form1.html')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="files.csv"'
