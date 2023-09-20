@@ -9,7 +9,6 @@ urlpatterns = [
     path('submit/1/', views.multistepform1_save, name='multistepform1'),
     path('submit/2/', views.multistepform2_save, name='multistepform2'),
     path('thanks/', views.response_recorded, name='thanks'),
-    # path('details/', views.event_details, name='details'),
     path('view_details/', views.event_details, name='view_details'),
     path('create_email/', views.create_email, name='mail'),
     path('email/', views.send_email, name='send-email'),
