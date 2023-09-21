@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'form.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'events_details',
+        'NAME': 'exhibitor_details',
         'CLIENT': {
             'host': MONGODB_CONN,
         }
