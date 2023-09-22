@@ -339,28 +339,72 @@ def response_recorded(request):
 
 
 def event_details(request):
-    if request.method != "POST":
-        return HttpResponseRedirect(reverse("exhibitors:main-view"))
+    if request.method == "GET":
+        email = request.GET.get("email")
+        page_number = request.GET.get('page')
+        if (page_number == None):
+            page_number = 1
+        return page_handler(request, email, page_number)
     else:
         email = request.POST.get("email")
-        string = settings.MONGODB_CONN
-        connection = MongoClient(string)
-        db = connection['exhibitor_details']
-        collection = db['fs.files']
-        files = []
-        # for doc in collection.find({"email": request.session['email']}):
-        for doc in collection.find({"email": email},
-                               {'_id': 1, 'filename': 1, 'md5': 1, 'chunkSize': 1, 'length': 1, 'uploadDate': 1,
-                                'email': 1, 'name': 1, 'brand_name': 1, 'name_incharge': 1,
-                                'designation_incharge': 1, 'exhibitor_page_link': 1, 'exhibitor_website': 1,
-                                'exhibitor_email': 1,
-                                'exhibitor_both_number': 1, 'exhibitor_city': 1, 'exhibitor_country': 1,
-                                'exhibitor_address': 1, 'type': 1, 'exhibitor_product': 1, 'linkedin': 1, 'twitter': 1,
-                                'facebook': 1, 'instagram': 1, ' youtube': 1,
-                                'tiktok': 1, 'hashtag': 1, 'mention': 1, 'BDEventID': 1, 'description': 1,
-                                'comments': 1, }):
-            files.append(doc)     
-        return render(request, 'exhibitors/view_details.html', {'obj_list': files, 'email': email})
+        page_number = request.GET.get('page')
+        if (page_number == None):
+            page_number = 1
+        return page_handler(request, email, page_number)
+
+
+def page_handler(request, email, page_number):
+    string = settings.MONGODB_CONN
+    connection = MongoClient(string)
+    db = connection['exhibitor_details']
+    collection = db['fs.files']
+
+    # Retrieve data from MongoDB
+    data = list(collection.find({"email": email},
+                                {'_id': 1, 'filename': 1, 'md5': 1, 'chunkSize': 1, 'length': 1, 'uploadDate': 1,
+                                 'email': 1, 'name': 1, 'brand_name': 1, 'name_incharge': 1,
+                                 'designation_incharge': 1, 'exhibitor_page_link': 1, 'exhibitor_website': 1,
+                                 'exhibitor_email': 1,
+                                 'exhibitor_both_number': 1, 'exhibitor_city': 1, 'exhibitor_country': 1,
+                                 'exhibitor_address': 1, 'type': 1, 'exhibitor_product': 1, 'linkedin': 1, 'twitter': 1,
+                                 'facebook': 1, 'instagram': 1, 'youtube': 1,
+                                 'tiktok': 1, 'hashtag': 1, 'mention': 1, 'BDEventID': 1, 'description': 1,
+                                 'comments': 1, }))
+
+    # Set the number of items per page
+    items_per_page = 10
+    paginator = Paginator(data, items_per_page)
+
+    # Get the Page object for the current page
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'exhibitors/view_details.html', {'obj_list': page_obj, 'email': email})
+
+
+# def event_details(request):
+#     if request.method != "POST":
+#         return HttpResponseRedirect(reverse("exhibitors:main-view"))
+#     else:
+#         email = request.POST.get("email")
+#         string = settings.MONGODB_CONN
+#         connection = MongoClient(string)
+#         db = connection['exhibitor_details']
+#         collection = db['fs.files']
+#         files = []
+#         # for doc in collection.find({"email": request.session['email']}):
+#         for doc in collection.find({"email": email},
+#                                {'_id': 1, 'filename': 1, 'md5': 1, 'chunkSize': 1, 'length': 1, 'uploadDate': 1,
+#                                 'email': 1, 'name': 1, 'brand_name': 1, 'name_incharge': 1,
+#                                 'designation_incharge': 1, 'exhibitor_page_link': 1, 'exhibitor_website': 1,
+#                                 'exhibitor_email': 1,
+#                                 'exhibitor_both_number': 1, 'exhibitor_city': 1, 'exhibitor_country': 1,
+#                                 'exhibitor_address': 1, 'type': 1, 'exhibitor_product': 1, 'linkedin': 1, 'twitter': 1,
+#                                 'facebook': 1, 'instagram': 1, ' youtube': 1,
+#                                 'tiktok': 1, 'hashtag': 1, 'mention': 1, 'BDEventID': 1, 'description': 1,
+#                                 'comments': 1, }):
+#             files.append(doc)
+#         return render(request, 'exhibitors/view_details.html', {'obj_list': files, 'email': email})
+
 
 @login_required(login_url='/accounts/login/')
 def create_email(request):
