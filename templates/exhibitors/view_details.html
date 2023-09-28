@@ -6,7 +6,6 @@
 <div class="container mt-5 mb-5" style="background-color: #ffffff;">
   <div class="row">
     <div>
-
       <form id="msform" method="post">
         <h2><strong>View Exhibitor Details</strong></h2>
         {% csrf_token %}
@@ -16,8 +15,8 @@
           class="confirm action-button w-auto" value="Download CSV" />
       </form>
     </div>
-    <div class="table-container table-responsive">
-      <table class="table table-success table-bordered w-auto text-nowrap">
+    <div style="overflow-y:hidden;">
+      <table class="table table-success table-bordered w-auto text-nowrap" style="height: 100%;">
         <thead class="table-dark">
           <tr>
             <th scope="col">#</th>
@@ -79,30 +78,59 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
+    <div class="mt-2">
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
           {% if obj_list.has_previous %}
           <li class="page-item"><a class="page-link" href="?page=1&email={{ email }}" aria-label="First">Start</a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ obj_list.previous_page_number }}&email={{ email }}"
-              aria-label="Previous">Back</a></li>
+          {% comment %} <li class="page-item"><a class="page-link" href="?page={{ obj_list.previous_page_number }}&email={{ email }}"
+              aria-label="Previous">Back</a></li> {% endcomment %}
           {% else %}
-          <li class="page-item disabled"><span class="page-link" aria-hidden="true">First page</span></li>
-          <li class="page-item disabled"><span class="page-link" aria-hidden="true">Back</span></li>
+          <li class="page-item disabled" ><span class="page-link" aria-hidden="true">First page</span></li>
+          <li class="page-item disabled" style="display: none;"><span class="page-link" aria-hidden="true">Back</span></li>
+          {% endif %}
+
+          {% if  obj_list.number|add:'-2' > 1 %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ obj_list.number|add:'-2' }}&email={{ email }}">&hellip;</a>
+          </li>
           {% endif %}
 
           {% for page in obj_list.paginator.page_range %}
-          <li class="page-item {% if obj_list.number == page %}active{% endif %}">
-            <a class="page-link" href="?page={{ page }}&email={{ email }}">{{ page }}</a>
-          </li>
+            {% if  obj_list.number == page %}
+              <li class="page-item active">
+                <a class="page-link" href="?page={{ page }}&email={{ email }}">{{ page }}</a>
+              </li>
+            {% elif page > obj_list.number|add:'-2' and page < obj_list.number|add:'2' %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page }}&email={{ email }}">{{ page }}</a>
+              </li>
+            {% endif %}
           {% endfor %}
 
+          {% if obj_list.paginator.num_pages > obj_list.number|add:'2' %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ obj_list.number|add:'-2' }}&email={{ email }}">&hellip;</a>
+              </li>
+              {% comment %} <li class="page-item">
+                <a class="page-link" href="?page={{ page }}&email={{ email }}">{{ page }}</a>
+              </li> {% endcomment %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ obj_list.paginator.num_pages|add:'-1' }}&email={{ email }}">{{ obj_list.paginator.num_pages|add:'-1' }}</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ obj_list.paginator.num_pages }}&email={{ email }}">{{ obj_list.paginator.num_pages }}</a>
+              </li>
+          {% endif %}
+
           {% if obj_list.has_next %}
-          <li class="page-item"><a class="page-link" href="?page={{ obj_list.next_page_number }}&email={{ email }}"
-              aria-label="Next">Next</a></li>
+          {% comment %} <li class="page-item"><a class="page-link" href="?page={{ obj_list.next_page_number }}&email={{ email }}"
+              aria-label="Next">Next</a></li> {% endcomment %}
           <li class="page-item"><a class="page-link" href="?page={{ obj_list.paginator.num_pages }}&email={{ email }}"
               aria-label="Last">End</a></li>
           {% else %}
-          <li class="page-item disabled"><span class="page-link" aria-hidden="true">Next</span></li>
+          {% comment %} <li class="page-item disabled"><span class="page-link" aria-hidden="true">Next</span></li> {% endcomment %}
           <li class="page-item disabled"><span class="page-link" aria-hidden="true">Last page</span></li>
           {% endif %}
         </ul>
@@ -110,14 +138,5 @@
     </div>
   </div>
 </div>
-
-<style>
-  .table-container {
-    min-height: 400px;
-    /* Set the maximum height for scrollability */
-    overflow-y: auto;
-    /* Enable vertical scrolling */
-  }
-</style>
 
 {% endblock content %}
